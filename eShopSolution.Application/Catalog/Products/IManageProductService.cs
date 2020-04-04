@@ -1,5 +1,5 @@
-﻿using eShopSolution.Application.Catalog.Products.Dtos;
-using eShopSolution.ViewModels.Catalog.ProductImages;
+﻿using eShopSolution.ViewModels.Catalog.ProductImages;
+using eShopSolution.ViewModels.Catalog.Products;
 using eShopSolution.ViewModels.Catalog.Products.Manage;
 using eShopSolution.ViewModels.Common;
 using System.Collections.Generic;
@@ -34,5 +34,6 @@ namespace eShopSolution.Application.Catalog.Products
         Task<ProductImageViewModel> GetImageById(int imageId);
 
         Task<List<ProductImageViewModel>> GetListImages(int productId);
+        Task<List<ProductViewModel>> GetAll();
     }
 }

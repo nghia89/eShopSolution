@@ -1,10 +1,16 @@
+using eShopSolution.Application.Catalog.Products;
+using eShopSolution.Application.Common;
+using eShopSolution.Data.EF;
+using eShopSolution.Utilities.Contstants;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
+using Microsoft.OpenApi.Models;
 
-namespace eShopSolution.WebApp
+namespace eShopSolution.Api
 {
     public class Startup
     {
@@ -18,6 +24,21 @@ namespace eShopSolution.WebApp
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
+            services.AddDbContext<EShopDbContext>(options =>
+               options.UseSqlServer(Configuration.GetConnectionString(SystemConstants.MainConnectionString)));
+            //Declare DI
+            services.AddTransient<IStorageService, FileStorageService>();
+
+            services.AddTransient<IPublicProductService, PublicProductService>();
+            services.AddTransient<IManageProductService, ManageProductService>();
+            //services.AddTransient<UserManager<AppUser>, UserManager<AppUser>>();
+            //services.AddTransient<SignInManager<AppUser>, SignInManager<AppUser>>();
+            //services.AddTransient<RoleManager<AppRole>, RoleManager<AppRole>>();
+            //services.AddTransient<IUserService, UserService>();
+            services.AddSwaggerGen(c =>
+            {
+                c.SwaggerDoc("v1", new OpenApiInfo { Title = "Swagger eShop Solution", Version = "v1" });
+            });
             services.AddControllersWithViews();
         }
 
@@ -40,7 +61,12 @@ namespace eShopSolution.WebApp
             app.UseRouting();
 
             app.UseAuthorization();
+            app.UseSwagger();
 
+            app.UseSwaggerUI(c =>
+            {
+                c.SwaggerEndpoint("/swagger/v1/swagger.json", "Swagger eShopSolution V1");
+            });
             app.UseEndpoints(endpoints =>
             {
                 endpoints.MapControllerRoute(
