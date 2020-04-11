@@ -10,6 +10,7 @@ using eShopSolution.Application.Catalog.Products;
 using eShopSolution.ViewModels.Catalog.Products.Public;
 using eShopSolution.ViewModels.Catalog.ProductImages;
 using eShopSolution.ViewModels.Catalog.Products.Manage;
+using Microsoft.AspNetCore.Authorization;
 
 namespace eShopSolution.Api.Controllers
 {
@@ -27,6 +28,7 @@ namespace eShopSolution.Api.Controllers
             _manageProductService = manageProductService;
         }
         [HttpGet()]
+        [Authorize]
         public async Task<IActionResult> GetAll()
         {
             var products = await _manageProductService.GetAll();

@@ -22,7 +22,7 @@ namespace eShopSolution.Api.Controllers
 
         [HttpPost("authenticate")]
         [AllowAnonymous]//cho phép kh đăng nhập vẩn vào
-        public async Task<IActionResult> Authenticate([FromBody]LoginRequest request)
+        public async Task<IActionResult> Authenticate([FromForm]LoginRequest request)
         {
             if (!ModelState.IsValid)
                 return BadRequest(ModelState);
