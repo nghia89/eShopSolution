@@ -48,8 +48,8 @@ namespace eShopSolution.AdminApp.Controllers
             var userPrincipal = this.ValidateToken(token);
             var authProperties = new AuthenticationProperties
             {
-                ExpiresUtc = DateTimeOffset.UtcNow.AddMinutes(10),
-                IsPersistent = false
+                ExpiresUtc = DateTimeOffset.UtcNow.AddHours(2),
+                IsPersistent = true
             };
             await HttpContext.SignInAsync(
                         CookieAuthenticationDefaults.AuthenticationScheme,
